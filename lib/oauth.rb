@@ -43,7 +43,7 @@ module OAuth
 
     get '/logout' do
       logout!
-      redirect to('/')
+      redirect to('/login')
     end
   end
 end

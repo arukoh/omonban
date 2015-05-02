@@ -21,7 +21,7 @@ class ReverseProxy < Rack::ReverseProxy
 
   def change_matchers(host=nil, &block)
     @host_matchers_map ||= {}
-    @matchers = @host_matchers_map[host] || []
+    @matchers = @host_matchers_map[host] || @host_matchers_map[nil] || []
     block.call
   ensure
     @matchers = @host_matchers_map[nil]
