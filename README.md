@@ -2,6 +2,7 @@ OMonban
 ======
 
 OMonban is a reverse proxy that provides authentication using OAuth providers.  
+Demo application running here: https://omonban.herokuapp.com/
 
 
 ## Getting Started
