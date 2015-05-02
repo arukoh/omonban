@@ -1,0 +1,23 @@
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="gridSystemModalLabel">Sign in</h4>
+      </div>
+      <div class="modal-body">
+        <% @oauth.each do |h| %>
+          <% link = "/auth/#{h.omniauth}" %>
+        <a href="<%= link %>" class="btn btn-block btn-social btn-lg btn-<%= h.name.downcase %>">
+          <i class="fa fa-<%= h.name.downcase %>"></i>Sign in with <%= h.name %>
+        </a>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :page_javascript do %>
+<script>
+$(function(){ $('#loginModal').modal({ backdrop: 'static', keyboard: false, show: true }); });
+</script>
+<% end %>
