@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Omonban by arukoh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Omonban</h1>
+      <h2 class="project-tagline">A reverse proxy that provides authentication using OAuth providers</h2>
+      <a href="https://github.com/arukoh/omonban" class="btn">View on GitHub</a>
+      <a href="https://github.com/arukoh/omonban/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/arukoh/omonban/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="omonban" class="anchor" href="#omonban" aria-hidden="true"><span class="octicon octicon-link"></span></a>OMonban</h1>
+
+<p>OMonban is a reverse proxy that provides authentication using OAuth providers.  </p>
+
+<h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h2>
+
+<ol>
+<li>
+<code>git clone</code> this project</li>
+<li>rename <code>config/application.yml.sample</code> to <code>/path/to/config.yml</code>
+</li>
+<li>edit <code>config.yml</code> and <code>export CONFIG_FILE=/path/to/config.yml</code>
+</li>
+<li><code>bundle install</code></li>
+<li>
+<code>bundle exec rackup</code> or <code>bundle exec unicorn</code>
+</li>
+</ol>
+
+<h2>
+<a id="example-configuration" class="anchor" href="#example-configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example Configuration</h2>
+
+<div class="highlight highlight-yaml"><pre><span class="pl-s"><span class="pl-ent">session:</span></span>
+  <span class="pl-c"># secret key for cookie store</span>
+  <span class="pl-s"><span class="pl-ent">secret:</span> <span class="pl-s">&lt;%= ENV["SESSION_SECRET"] %&gt;</span></span>
+
+
+<span class="pl-c"># array of oauth settings</span>
+<span class="pl-s"><span class="pl-ent">oauth:</span></span>
+    <span class="pl-c"># oauth provider name (github/github/facebook/twitter)</span>
+  <span class="pl-s">- <span class="pl-ent">provider:</span>      <span class="pl-s">github</span></span>
+    <span class="pl-c"># your app id for the service</span>
+    <span class="pl-s"><span class="pl-ent">client_id:</span>     <span class="pl-s">&lt;%= ENV["GITHUB_CLIENT_ID"] %&gt;</span></span>
+    <span class="pl-c"># your app secret for the service</span>
+    <span class="pl-s"><span class="pl-ent">client_secret:</span> <span class="pl-s">&lt;%= ENV["GITHUB_CLIENT_SECRET"] %&gt;</span></span>
+    <span class="pl-c"># restrict user request (optional) </span>
+<span class="pl-c">#    restrictions:</span>
+        <span class="pl-c"># use all</span>
+<span class="pl-c">#      - type:  uid</span>
+<span class="pl-c">#        value: 1234567890</span>
+<span class="pl-c">#        role:  admin</span>
+        <span class="pl-c"># use github only</span>
+<span class="pl-c">#      - type:  name</span>
+<span class="pl-c">#        value: arukoh</span>
+<span class="pl-c">#        role:  admin</span>
+        <span class="pl-c"># use github only</span>
+<span class="pl-c">#      - type:  organization</span>
+<span class="pl-c">#        value: org</span>
+<span class="pl-c">#        role:  user</span>
+        <span class="pl-c"># use google and facebook only</span>
+<span class="pl-c">#      - type:  email</span>
+<span class="pl-c">#        value: test@example.com</span>
+<span class="pl-c">#        role:  user</span>
+
+<span class="pl-s"><span class="pl-ent">role:</span></span>
+  <span class="pl-s"><span class="pl-ent">admin:</span> <span class="pl-s">&lt;%= ENV["ADMIN_PASSWORD"] %&gt;</span></span>
+  <span class="pl-s"><span class="pl-ent">user:</span>  <span class="pl-s">&lt;%= ENV["USER_PASSWORD"] %&gt;</span></span>
+
+<span class="pl-c"># proxy definitions</span>
+<span class="pl-s"><span class="pl-ent">proxy:</span></span>
+  <span class="pl-s">- <span class="pl-ent">path:</span> <span class="pl-s">&lt;%= /^\/(.*)/ %&gt;</span></span>
+    <span class="pl-s"><span class="pl-ent">dest:</span> <span class="pl-s"><span class="pl-pds">'</span>http://localhost:4567/$1<span class="pl-pds">'</span></span></span>
+  <span class="pl-s">- <span class="pl-ent">host:</span> <span class="pl-s">localhost:8080</span></span>
+    <span class="pl-s"><span class="pl-ent">path:</span> <span class="pl-s">&lt;%= /^\/(.*)/ %&gt;</span></span>
+    <span class="pl-s"><span class="pl-ent">dest:</span> <span class="pl-s"><span class="pl-pds">'</span>http://localhost:4567/foo/$1<span class="pl-pds">'</span></span></span></pre></div>
+
+<h2>
+<a id="thanks" class="anchor" href="#thanks" aria-hidden="true"><span class="octicon octicon-link"></span></a>Thanks</h2>
+
+<p>OMonban is same concept with <a href="https://github.com/bitly/google_auth_proxy">google_auth_proxy</a>, <a href="https://github.com/typester/gate">gate</a>, etc.  </p>
+
+<p>(c) 2015 arukoh. This code is distributed under the MIT license.</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/arukoh/omonban">Omonban</a> is maintained by <a href="https://github.com/arukoh">arukoh</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
+
