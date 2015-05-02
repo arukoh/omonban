@@ -18,9 +18,8 @@ Demo application running here: https://omonban.herokuapp.com/
 
 ```yaml
 session:
-  # secret key for cookie store
+  key:    omonban.session
   secret: <%= ENV["SESSION_SECRET"] %>
-
 
 # array of oauth settings
 oauth:

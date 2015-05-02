@@ -9,7 +9,7 @@ class App < Sinatra::Base
     klass.configure do |app|
       app.set :root,     File.dirname(__FILE__)
       app.set :logging,  true
-      app.set :sessions, secret: Settings.session["secret"]
+      app.set :sessions, key: Settings.session["key"], secret: Settings.session["secret"]
 
       app.helpers Sinatra::ContentFor
       app.register Error::Handler
