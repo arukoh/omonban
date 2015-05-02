@@ -16,7 +16,7 @@ module OAuth
     helpers Helpers, Restrictor::Helpers
 
     before do
-      pass if request.path_info =~ /^\/(auth\/|login$|logout$)/
+      pass if request.path_info =~ /^\/(login$|auth\/.+\/callback$|auth\/failure$)/
       unless authorized?
         previous_url(request.path_info)
         redirect to("/login")
@@ -37,7 +37,6 @@ module OAuth
     end
 
     get '/login' do
-      @oauth = settings.oauth
       erb :login
     end
 

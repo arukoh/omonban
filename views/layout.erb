@@ -15,6 +15,27 @@
   </head>
 
   <body>
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <% if @login_dialog_closable %>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <% end %>
+            <h4 class="modal-title" id="gridSystemModalLabel">Sign in</h4>
+          </div>
+          <div class="modal-body">
+            <% Settings.oauth.each do |h| %>
+              <% link = "/auth/#{h.omniauth}" %>
+            <a href="<%= link %>" class="btn btn-block btn-social btn-lg btn-<%= h.name.downcase %>">
+              <i class="fa fa-<%= h.name.downcase %>"></i>Sign in with <%= h.name %>
+            </a>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <%= yield %>
 
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>

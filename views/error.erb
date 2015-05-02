@@ -4,6 +4,7 @@ body { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAA
 .error-template {padding: 40px 15px;text-align: center;}
 </style>
 <% end %>
+
 <% if @detail && !@detail.empty? %>
 <div class="alert alert-danger alert-dismissible" role="alert">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -19,6 +20,9 @@ body { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAA
         <div class="error-details">
           Sorry, an error has occured
         </div>
+        <% if @login_button_visible %>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Sign in</button>
+        <% end %>
       </div>
     </div>
   </div>

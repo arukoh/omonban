@@ -32,6 +32,7 @@ module Error
       def error_message(code, detail=nil)
         @detail  = detail.is_a?(Array) ? detail.join("\n") : detail.to_s
         @message = "#{code} #{CODE_MESSAGE_MAPPING[code] || "Unkwon"}"
+        @login_button_visible = @login_dialog_closable = [401,403].include?(code)
       end
     end
 
@@ -40,12 +41,13 @@ module Error
 
       app.error do |e|
         code = e.respond_to?(:code) ? e.code : 500
-        error_message(500, e.message)
+        error_message(code, e.message)
         erb :error
       end
 
       app.error 400..510 do
-        error_message(response.status, response.body)
+        code = response.status
+        error_message(code, response.body)
         erb :error
       end
     end
