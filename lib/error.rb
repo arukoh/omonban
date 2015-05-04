@@ -46,9 +46,11 @@ module Error
       end
 
       app.error 400..510 do
-        code = response.status
-        error_message(code, response.body)
-        erb :error
+        unless response.body.is_a?(Rack::HttpStreamingResponse)
+          code = response.status
+          error_message(code, response.body)
+          erb :error
+        end
       end
     end
   end
