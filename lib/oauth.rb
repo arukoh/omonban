@@ -15,14 +15,6 @@ module OAuth
 
     helpers Helpers, Restrictor::Helpers
 
-    before do
-      pass if request.path_info =~ /^\/(login$|auth\/.+\/callback$|auth\/failure$)/
-      unless authorized?
-        previous_url(request.path_info)
-        redirect to("/login")
-      end
-    end
-
     get '/auth/:provider/callback' do |provider|
       oauth = find_oauth(provider)
       halt 403, "#{request.path_info} is invalid path" unless oauth
@@ -36,13 +28,18 @@ module OAuth
       halt 403, params["message"]
     end
 
-    get '/login' do
-      erb :login
-    end
-
     get '/logout' do
       logout!
-      redirect to('/login')
+      redirect to('/')
+    end
+
+    get '*' do
+      if authorized?
+        forward
+      else
+        previous_url(request.path_info)
+        erb :login
+      end
     end
   end
 end
