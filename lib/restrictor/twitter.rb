@@ -7,7 +7,7 @@ module Restrictor
 
     def exec(auth_hash)
       @uids.each do |res|
-        return res["role"] if res["value"].to_s == auth_hash.uid
+        return res["role"] || true if res["value"].to_s == auth_hash.uid
       end
       nil
     end

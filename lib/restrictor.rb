@@ -9,6 +9,7 @@ module Restrictor
       klass = Restrictor.const_get(oauth.name)
       name = klass.new(oauth.restrictions).exec(auth_hash)
       return nil unless name
+      return NilUser.new if name == true
       restricted_user(name)
     end
 
@@ -18,5 +19,6 @@ module Restrictor
     end
 
     class RestrictedUser < Struct.new(:name, :pass); end
+    class NilUser < RestrictedUser; def initialize; super(nil, nil); end; end
   end
 end
