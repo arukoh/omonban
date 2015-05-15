@@ -5,7 +5,7 @@ module OAuth
   class Handler < Sinatra::Base
 
     set :oauth, Settings.oauth
-    set :role,  Settings.role
+    set :role,  Settings["role"]
 
     use OmniAuth::Builder do
       OAuth::Handler.oauth.each do |h|
