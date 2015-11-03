@@ -1,6 +1,7 @@
 session:
   key:    omonban.session
   secret: <%= ENV["SESSION_SECRET"] %>
+#  domain: example.com
 
 # array of oauth settings
 oauth:
