@@ -40,3 +40,4 @@ proxy:
   - host: localhost:8080
     path: <%= /^\/(.*)/ %>
     dest: 'http://localhost:4567/foo/$1'
+    auth: false
