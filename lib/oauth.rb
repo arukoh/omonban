@@ -34,7 +34,7 @@ module OAuth
     end
 
     get '*' do
-      if authorized?
+      if authorized? || !auth_is_required?(env["HTTP_HOST"], env["PATH_INFO"])
         forward
       else
         previous_url(request.path_info)
